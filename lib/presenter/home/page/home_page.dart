@@ -34,15 +34,6 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  void _updateBusList() {
-    final event = HomeInitialEvent(
-      departure: departure.text,
-      destination: destination.text,
-      date: DateTime.now().toString(),
-    );
-    bloc.add(event);
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomeBloc>(
@@ -106,7 +97,6 @@ class _HomePageState extends State<HomePage> {
                       setState(() {
                         departure.text = value.toString();
                       });
-                      _updateBusList();
                     }),
                   ),
                   Padding(
@@ -115,13 +105,14 @@ class _HomePageState extends State<HomePage> {
                       setState(() {
                         destination.text = value.toString();
                       });
-                      _updateBusList();
                     }),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(28.0),
                     child: InkWell(
-                      onTap: _updateBusList,
+                      onTap: (){
+                        bloc.add(HomeInitialEvent(departure: departure.text, destination: destination.text));
+                      },
                       child: Container(
                         height: 60,
                         decoration: BoxDecoration(color: const Color(0xFF2FDC9A), borderRadius: BorderRadius.circular(15)),
